@@ -19,12 +19,40 @@
     {{ #loggedIn }}
     <header>
       <nav>
+        <a href="/home">
+          <button>Home</button>
+        </a>
+        <a href="/messages/new">
+          <button>New Gab</button>
+        </a>
         <form method="post" action="/users/logout">
           <input type="submit" value="Log Out">
         </form>
-    </nav>
+      </nav>
     </header>
-      <h1>Welcome to Gabble.</h1>
+
+    <div>
+      <form method="post" action="/messages/new">
+        <textarea name="newgab" placeholder="What's going on?"></textarea>
+        <input type="submit" value="Gab">
+      </form>
+    </div>
+
+    <div>
+      <form method="post" action="/messages/refresh">
+        <input type="submit" value="Refresh Gabs">
+      </form>
+    </div>
+
+    {{ #messages }}
+    <div>
+      <h3>{{ userId }}</h3>
+      <p>{{ message }}</p>
+      <form method="post" action="/likes">
+        <input type="submit" value="Like">
+      </form>
+    </div>
+    {{ /messages }}
     {{ /loggedIn }}
   </body>
 </html>

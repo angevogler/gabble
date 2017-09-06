@@ -65,9 +65,51 @@ function loginUser(username, password) {
   });
 };
 
+// find user by id
+function findUserId(id) {
+  return Users.find({
+    where: {
+      id: id,
+    }
+  }).then(function(result) {
+    if (result === null) {
+      return Promise.reject();
+    } else {
+      return result;
+    }
+  });
+};
+
+// write new message
+function writeMessage(userId, message) {
+  return findUserId(userId).then(function(user) {
+    return Messages.create({
+      userId: userId,
+      message: message,
+    }).then(function() {
+      return findUserId(userId);
+    });
+  });
+};
+
+
+// find all gabs with their correct display name
+function findAllGabs() {
+  return Messages.findAll()
+}
+
+// find all users
+function findAllUsers() {
+  return Users.findAll();
+}
+
 
 /* ******** EXPORT ******** */
 module.exports = {
   createUser: createUser,
   loginUser: loginUser,
+  findUserId: findUserId,
+  writeMessage: writeMessage,
+  findAllGabs: findAllGabs,
+  findAllUsers: findAllUsers,
 };

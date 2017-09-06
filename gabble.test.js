@@ -6,3 +6,9 @@ test('find user by username and password', function() {
     expect(user.name).toBe('Ange');
   });
 });
+
+test('find user by id', function() {
+  return gabble.findUserId(2).then(function(user) {
+    expect(user.name).toBe('Ange');
+  });
+});

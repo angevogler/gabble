@@ -9,11 +9,27 @@ function createRoutes(app) {
     });
   });
 
-  // home page
+  // home page -- find all gabs
   app.get('/home', function(req, res) {
-    res.render('home', {
-      loggedIn: true,
-    });
+    if (req.session.who != null) {
+      gabble.findAllGabs().then(function(messages) {
+        gabble.findAllUsers().then(function(users) {
+          console.log(messages);
+          console.log(users);
+          res.render('home', {
+            users: users,
+            messages: messages,
+            loggedIn: true,
+          });
+        })
+      })
+    } else {
+      res.redirect('/');
+    }
+  });
+
+  app.post('/messages/refresh', function(req, res) {
+    res.redirect('/home');
   });
 
   /* ******** CREATE NEW USER ******** */
@@ -60,6 +76,29 @@ function createRoutes(app) {
     console.log(req.session.who.username + ' has logged out');
     req.session.destroy;
     res.redirect('/');
+  });
+
+  /* ******** WRITE NEW MESSAGE ******** */
+  // load new message form
+  app.get('/messages/new', function(req, res) {
+    if (req.session.who != null) {
+      res.render('new_gab');
+    } else {
+      res.redirect('/');
+    }
+  });
+
+  // create new message
+  app.post('/messages/new', function(req, res) {
+    if (req.session.who != null) {
+      gabble.writeMessage(req.session.who.id, req.body.newgab)
+        .then(function(message) {
+          console.log(req.session.who.username + ' posted a new gab');
+          res.redirect('/home');
+        })
+    } else {
+      res.redirect('/');
+    };
   });
 
 };

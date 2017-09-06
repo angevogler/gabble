@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <head>
+    <title>New Gab</title>
+  </head>
+
+  <body>
+    <header>
+      <nav>
+        <a href="/home">
+          <button>Home</button>
+        </a>
+        <a href="/messages/new">
+          <button>New Gab</button>
+        </a>
+        <form method="post" action="/users/logout">
+          <input type="submit" value="Log Out">
+        </form>
+      </nav>
+    </header>
+
+    <section>
+      <h1>Compose new Gab.</h1>
+      <form method="post" action="/messages/new">
+        <textarea name="newgab">What's going on?</textarea>
+        <input type="submit" value="Gab">
+      </form>
+    </section>
+  </body>
+</html>
