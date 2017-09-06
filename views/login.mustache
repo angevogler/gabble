@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Login</title>
+  </head>
+
+  <body>
+    <header>
+    <header>
+
+    <section>
+      <h1>Log in to Gabble.</h1>
+      {{ #error }}
+        <h2>There was an error logging you in</h2>
+      {{ /error }}
+      <form method="post" action="/users/login">
+        <input type="text" name="username" placeholder="Username">
+        <input type="password" name="password" placeholder="Password">
+        <input type="submit" value="Sign Up.">
+      </form>
+      <a href="/users/new">
+        New to Gabble? <span>Sign up.<span>
+      </a>
+    <section>
+  </body>
+</html>

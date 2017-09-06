@@ -1,11 +1,10 @@
-/* ******** CONGIFURE ******** */
+/* ******** DATABASE STUFF ******** */
 const Sequelize = require('sequelize');
 
-/* ******** DATABASE STUFF ******** */
 // create new database
 const db = new Sequelize ('gabble', 'angelavogler', '', {
   dialect: 'postgres',
-})
+});
 
 // create user schema
 const Users = db.define('user', {
@@ -45,7 +44,30 @@ Likes.sync().then(function(){
   console.log('likes syncd');
 });
 
+/* ******** FUNCTIONS ******** */
+
+// register new user
+function createUser(name, username, password) {
+  return Users.create({
+    name: name,
+    username: username,
+    password: password,
+  });
+};
+
+// log user in
+function loginUser(username, password) {
+  return Users.find({
+    where: {
+      username: username,
+      password: password,
+    }
+  });
+};
+
+
 /* ******** EXPORT ******** */
 module.exports = {
-
+  createUser: createUser,
+  loginUser: loginUser,
 };

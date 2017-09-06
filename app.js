@@ -5,6 +5,7 @@ const bodyparser = require('body-parser');
 const session = require('express-session');
 const Sequelize = require('sequelize');
 
+const routes = require('./routes')
 const gabble = require('./gabble');
 
 // configure server
@@ -25,5 +26,8 @@ app.use(session({
     saveUninitialized: true
 }));
 
+// configure routes
+routes(app);
+
 //start server
-app.listen(4000)
+app.listen(4000);

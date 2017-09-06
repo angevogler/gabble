@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <head>
+  </head>
+
+  <body>
+    {{ ^loggedIn }}
+      <h1>Welcome to Gabble.</h1>
+      <div>
+        <a href="/users/new">
+          <button>Sign Up</button>
+        </a>
+        <a href="/users/login">
+          <button>Log In</button>
+        </a>
+      </div>
+    {{ /loggedIn }}
+
+    {{ #loggedIn }}
+    <header>
+      <nav>
+        <form method="post" action="/users/logout">
+          <input type="submit" value="Log Out">
+        </form>
+    </nav>
+    </header>
+      <h1>Welcome to Gabble.</h1>
+    {{ /loggedIn }}
+  </body>
+</html>
