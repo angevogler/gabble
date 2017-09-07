@@ -14,8 +14,6 @@ function createRoutes(app) {
     if (req.session.who != null) {
       gabble.findAllGabs().then(function(messages) {
         gabble.findAllUsers().then(function(users) {
-          console.log(messages);
-          console.log(users);
           res.render('home', {
             users: users,
             messages: messages,
@@ -99,6 +97,18 @@ function createRoutes(app) {
     } else {
       res.redirect('/');
     };
+  });
+
+  // create new like
+  app.post('/likes', function(req, res) {
+    if (req.session.who != null) {
+      gabble.findAllGabs().then(function(message) {
+        gabble.likeMessage(req.session.who, message.id).then(function(like) {
+          console.log('liked message');
+          res.redirect('/home');
+        })
+      })
+    }
   });
 
 };

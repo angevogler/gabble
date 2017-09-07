@@ -103,6 +103,33 @@ function findAllUsers() {
   return Users.findAll();
 }
 
+// find message by id
+function findMessageId(id) {
+  return Message.find({
+    where: {
+      id: id,
+    }
+  }).then(function(result) {
+    if (result === null) {
+      return Promise.reject();
+    } else {
+      return result;
+    }
+  });
+};
+
+// like message
+function likeMessage(userId, messageId) {
+  return findUserId().then(function(user) {
+    return findMessageId().then(function(message){
+      return Likes.create({
+        userId: userId,
+        messageId: messageId,
+      })
+    })
+  })
+}
+
 
 /* ******** EXPORT ******** */
 module.exports = {
@@ -112,4 +139,5 @@ module.exports = {
   writeMessage: writeMessage,
   findAllGabs: findAllGabs,
   findAllUsers: findAllUsers,
+  likeMessage: likeMessage,
 };

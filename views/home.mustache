@@ -1,34 +1,49 @@
 <!doctype html>
 <html>
   <head>
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,700,700i,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Sacramento" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <title>Gabble</title>
   </head>
 
   <body>
     {{ ^loggedIn }}
-      <h1>Welcome to Gabble.</h1>
-      <div>
-        <a href="/users/new">
-          <button>Sign Up</button>
-        </a>
-        <a href="/users/login">
-          <button>Log In</button>
-        </a>
+    <header id="welcome-header">
+      <h1>gabble</h1>
+    </header>
+
+    <section class="wrapper">
+      <div class="welcome-container">
+        <h1>Welcome to gabble</h1>
+        <div>
+          <a href="/users/new">
+            <button class="welcome-btns">Sign Up</button>
+          </a>
+          <a href="/users/login">
+            <button class="welcome-btns">Log In</button>
+          </a>
+        </div>
       </div>
+    </section>
     {{ /loggedIn }}
 
     {{ #loggedIn }}
-    <header>
-      <nav>
-        <a href="/home">
-          <button>Home</button>
-        </a>
-        <a href="/messages/new">
-          <button>New Gab</button>
-        </a>
-        <form method="post" action="/users/logout">
-          <input type="submit" value="Log Out">
-        </form>
-      </nav>
+    <header class="main-header">
+      <div class="main-header-container">
+        <h1>gabble</h1>
+        <nav class="main-nav">
+          <a href="/home">
+            <button class="nav-btn">Home</button>
+          </a>
+          <a href="/messages/new">
+            <button class="nav-btn">New Gab</button>
+          </a>
+          <form method="post" action="/users/logout">
+            <input type="submit" value="Log Out" class="nav-btn">
+          </form>
+        </nav>
+      </div>
     </header>
 
     <div>

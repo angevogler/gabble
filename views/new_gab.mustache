@@ -1,30 +1,38 @@
 <!doctype html>
 <html>
   <head>
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,700,700i,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Sacramento" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
     <title>New Gab</title>
   </head>
 
   <body>
-    <header>
-      <nav>
-        <a href="/home">
-          <button>Home</button>
-        </a>
-        <a href="/messages/new">
-          <button>New Gab</button>
-        </a>
-        <form method="post" action="/users/logout">
-          <input type="submit" value="Log Out">
-        </form>
-      </nav>
+    <header class="main-header">
+      <div class="main-header-container">
+        <h1>gabble</h1>
+        <nav class="main-nav">
+          <a href="/home">
+            <button class="nav-btn">Home</button>
+          </a>
+          <a href="/messages/new">
+            <button class="nav-btn">New Gab</button>
+          </a>
+          <form method="post" action="/users/logout">
+            <input type="submit" value="Log Out" class="nav-btn">
+          </form>
+        </nav>
+      </div>
     </header>
 
-    <section>
-      <h1>Compose new Gab.</h1>
-      <form method="post" action="/messages/new">
-        <textarea name="newgab">What's going on?</textarea>
-        <input type="submit" value="Gab">
-      </form>
+    <section class="wrapper">
+      <div>
+        <h1>Compose new Gab.</h1>
+        <form method="post" action="/messages/new">
+          <textarea name="newgab">What's going on?</textarea>
+          <input type="submit" value="Gab">
+        </form>
+      </div>
     </section>
   </body>
 </html>

@@ -1,26 +1,32 @@
 <!doctype html>
 <html>
   <head>
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,700,700i,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Sacramento" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
     <title>Login</title>
   </head>
 
   <body>
-    <header>
-    <header>
+    <header id="login-header">
+      <h1>gabble</h1>
+    </header>
 
-    <section>
-      <h1>Log in to Gabble.</h1>
-      {{ #error }}
-        <h2>There was an error logging you in</h2>
-      {{ /error }}
-      <form method="post" action="/users/login">
-        <input type="text" name="username" placeholder="Username">
-        <input type="password" name="password" placeholder="Password">
-        <input type="submit" value="Log In.">
-      </form>
-      <a href="/users/new">
-        New to Gabble? <span>Sign up.<span>
-      </a>
+    <section class="wrapper">
+      <div class="login-container">
+        <h1>Log in to Gabble.</h1>
+        {{ #error }}
+          <h2 class="error">There was an error logging you in</h2>
+        {{ /error }}
+        <form method="post" action="/users/login" class="login-form">
+          <input type="text" name="username" placeholder="Username">
+          <input type="password" name="password" placeholder="Password">
+          <input type="submit" value="Log In." id="login-btn">
+        </form>
+        <a href="/users/new" id="signup-link">
+          New to Gabble? <span>Sign up.<span>
+        </a>
+      </div>
     <section>
   </body>
 </html>

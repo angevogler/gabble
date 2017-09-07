@@ -1,0 +1,221 @@
+/* ******** GENERAL PAGE LAYOUTS ******** */
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  background-color: white;
+  color: #052D4F;
+  font-family: 'Playfair Display', serif;
+  margin: 0;
+}
+
+.wrapper {
+  margin-left: 20%;
+  margin-right: 20%;
+}
+
+.error {
+  color: #FF8E92;
+  font-weight: 900;
+  text-align: center;
+}
+
+/* ******** HEADER LAYOUTS ******** */
+
+header {
+  background-color: #EDF9FC;
+  height: 100px;
+  padding: 1% 3%;
+  border-bottom: 10px double #FF8E92;
+}
+
+header h1 {
+  font-family: 'Sacramento', cursive;
+  font-size: 50px;
+}
+
+#welcome-header {
+  text-align: center;
+}
+
+#signup-header {
+  display: flex;
+  flex-wrap: none;
+  justify-content: space-between;
+}
+
+#signup-header a {
+  margin-top: 2%;
+  text-decoration: none;
+}
+
+#signup-header a:visited {
+  color: #052D4F;
+  text-decoration: none;
+}
+
+#signup-header a span {
+  font-weight: 700;
+}
+
+#login-header {
+  text-align: center;
+}
+
+.main-header-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.main-header nav {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 2%;
+}
+
+.nav-btn {
+  background-color: #EDF9FC;
+  border: none;
+  font-size: 15px;
+  color: #052D4F;
+  font-family: 'Playfair Display', serif;
+}
+
+/* ******** WELCOME PAGE ******** */
+
+.welcome-container {
+  background-color: #EDF9FC;
+  width: 100%;
+  height: 500px;
+  margin-top: 10%;
+  padding: 5%;
+  border: 10px double #FF8E92;
+}
+
+.welcome-container h1 {
+  font-size: 75px;
+  text-align: center;
+  margin-top: 10%;
+  font-family: 'Sacramento', cursive;
+}
+
+.welcome-container div {
+  width: 100%;
+  margin-left: 25%;
+  margin-right: 25%;
+}
+
+.welcome-btns {
+  background-color: #FF8E92;
+  color: #EDF9FC;
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  width: 25%;
+  padding: 2%;
+  margin-top: 3%;
+  border-radius: 2%;
+}
+
+/* ******** SIGNUP PAGE ******** */
+
+.signup-container {
+  background-color: #EDF9FC;
+  width: 100%;
+  height: 500px;
+  margin-top: 10%;
+  padding: 5%;
+  border: 10px double #FF8E92;
+}
+
+.signup-container h1 {
+  font-size: 75px;
+  text-align: center;
+  margin-top: 5%;
+  font-family: 'Sacramento', cursive;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 40%;
+  margin-top: 3%;
+  margin-left: 30%;
+  margin-right: 30%;
+}
+
+.signup-form input {
+  height: 30px;
+  padding: 1%;
+  margin: 2% 0;
+  font-family: 'Playfair Display', serif;
+  font-weight: bold;
+}
+
+#signup-btn {
+  background-color: #FF8E92;
+  color: #EDF9FC;
+  font-family: 'Playfair Display', serif;
+  padding: 2%;
+  border-radius: 2%;
+}
+
+/* ******** LOGIN PAGE ******** */
+
+.login-container {
+  background-color: #EDF9FC;
+  width: 100%;
+  height: 500px;
+  margin-top: 10%;
+  padding: 5%;
+  border: 10px double #FF8E92;
+}
+
+.login-container h1 {
+  font-size: 75px;
+  text-align: center;
+  margin-top: 5%;
+  font-family: 'Sacramento', cursive;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 40%;
+  margin-top: 3%;
+  margin-left: 30%;
+  margin-right: 30%;
+}
+
+.login-form input {
+  height: 30px;
+  padding: 1%;
+  margin: 2% 0;
+  font-family: 'Playfair Display', serif;
+  font-weight: bold;
+}
+
+#login-btn {
+  background-color: #FF8E92;
+  color: #EDF9FC;
+  font-family: 'Playfair Display', serif;
+  padding: 2%;
+  border-radius: 2%;
+}
+
+#signup-link {
+  text-align: center;
+  text-decoration: none;
+  font-size: 15px;
+  margin-left: 40%;
+  margin-right: 40%;
+}
+
+#signup-link a:visited {
+  color: #052D4F;
+}
+
+/* ******** HOME PAGE ******** */

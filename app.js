@@ -26,6 +26,9 @@ app.use(session({
     saveUninitialized: true
 }));
 
+//configure CSS
+app.use(express.static('public'));
+
 // configure routes
 routes(app);
 
