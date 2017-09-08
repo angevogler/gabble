@@ -108,10 +108,16 @@ function findAllGabs() {
 };
 
 // find message by id
-function findMessageId(id) {
+function findMessageId(userId) {
   return Messages.find({
+      include: [
+        {
+          model: Users,
+        }
+      ]
+    }, {
     where: {
-      id: id,
+      userId: userId,
     }
   }).then(function(result) {
     if (result === null) {
@@ -183,6 +189,15 @@ function unlike(userId, messageId) {
   })
 };
 
+// update message
+function deleteMessage(id) {
+  return Messages.destroy({
+    where: {
+      id: id,
+    }
+  });
+};
+
 /* ******** EXPORT ******** */
 module.exports = {
   createUser: createUser,
@@ -195,4 +210,5 @@ module.exports = {
   findLikes: findLikes,
   hasUserLiked: hasUserLiked,
   unlike: unlike,
+  deleteMessage: deleteMessage,
 };

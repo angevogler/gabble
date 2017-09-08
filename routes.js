@@ -13,11 +13,18 @@ function createRoutes(app) {
   app.get('/home', function(req, res) {
     if (req.session.who != null) {
       gabble.findAllGabs().then(function(messages) {
+        // display number of likes
         let promises = [];
 
         for (let i = 0; i < messages.length; i++) {
+          if (req.session.who.id === messages[i].user.id) {
+            messages[i].author = true;
+          } else{
+            messages[i].author = false;
+          }
+          // display # of likes
           const likeProm = gabble.findLikes(messages[i].id).then(function (num) {
-            messages[i].likes = num; // update each message
+            messages[i].likes = num; // update each message with number of likes
           });
 
           const hasLikedProm = gabble.hasUserLiked(req.session.who.id, messages[i].id).then(function (hasLiked) {
@@ -40,8 +47,26 @@ function createRoutes(app) {
     }
   });
 
+  // refresh all messages
   app.post('/messages/refresh', function(req, res) {
     res.redirect('/home');
+  });
+
+  // delete message
+  app.post('/messages/:messageId/delete', function(req, res) {
+    const messageId = parseInt(req.params.messageId);
+    console.log(messageId);
+
+    gabble.findMessageId(messageId).then(function(messages) {
+      console.log(messages.user);
+      if (req.session.who.id === messages.user.id) {
+        console.log('before');
+        gabble.deleteMessage(messageId).then(function() {
+          console.log('hi');
+          res.redirect('/home');
+        })
+      };
+    });
   });
 
   /* ******** CREATE NEW USER ******** */
