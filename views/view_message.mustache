@@ -25,41 +25,47 @@
       </div>
     </header>
 
-    <section>
-      {{ #messages }}
-        <div class="gab-display">
-          <h3>{{ user.name }} <span>@{{ user.username }}</span></h3>
-          <p>{{ message }}</p>
-          <div class="likes">
-            {{ ^liked }}
-            <form method="post" action="/likes/{{ id }}/message">
-              <input type="submit" value="Like" class="like-btn">
-            </form>
-            {{ /liked }}
-            {{ #liked }}
-            <form method="post" action="/likes/{{ id }}/delete/message">
-              <input type="submit" value="Unlike" class="like-btn">
-            </form>
-            {{ /liked }}
-            <p>Liked by {{ likes }} people</p>
+    <section class="wrapper">
+      <div class="viewgab-wrapper container">
+        <div class="viewgab-container">
+        {{ #messages }}
+          <div class="gab-display">
+            <h3>{{ user.name }} <span>@{{ user.username }}</span></h3>
+            <p>{{ message }}</p>
+            <div>
+              {{ ^liked }}
+              <form method="post" action="/likes/{{ id }}/message" class="likes">
+                <input type="submit" value="Like" class="like-btn">
+                <p class="likers">Liked by {{ likes }} people</p>
+              </form>
+              {{ /liked }}
+              {{ #liked }}
+              <form method="post" action="/likes/{{ id }}/delete/message" class="likes view-likes">
+                <input type="submit" value="Unlike" class="like-btn viewgab-like-btn">
+                <p class="likers">Liked by {{ likes }} people</p>
+              </form>
+              {{ /liked }}
+            </div>
+            <div>
+              {{ #author }}
+              <form method="post" action="/messages/{{ id }}/delete">
+                <input type="submit" value="Delete" class="delete-gab">
+              </form>
+              {{ /author }}
+            </div>
           </div>
-          <div>
-            {{ #author }}
-            <form method="post" action="/messages/{{ id }}/delete">
-              <input type="submit" value="Delete">
-            </form>
-            {{ /author }}
+
+          <div class="liked-by">
+            <h3>Users who have liked this gab:</h3>
+            <ul>
+              {{ #likedBy }}
+              <li>{{ user.username }}</li>
+              {{ /likedBy }}
+            </ul>
           </div>
+        {{ /messages }}
         </div>
-        <div>
-          <h3>Users who have liked this gab:</h3>
-          <ul>
-            {{ #likedBy }}
-            <li>{{ user.name }}</li>
-            {{ /likedBy }}
-          </ul>
-        </div>
-      {{ /messages }}
+      </div>
     </section>
   </body>
 </html>

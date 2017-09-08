@@ -67,23 +67,25 @@
           <div class="gab-display">
             <h3>{{ user.name }} <span>@{{ user.username }}</span></h3>
             <p>{{ message }}</p>
-            <div class="likes">
+            <div>
               {{ ^liked }}
-              <form method="post" action="/likes/{{ id }}">
+              <form method="post" action="/likes/{{ id }}" class="likes">
                 <input type="submit" value="Like" class="like-btn">
+                <p class="likers">Liked by {{ likes }} people</p>
               </form>
               {{ /liked }}
               {{ #liked }}
-              <form method="post" action="/likes/{{ id }}/delete">
+              <form method="post" action="/likes/{{ id }}/delete" class="likes">
                 <input type="submit" value="Unlike" class="like-btn">
+                <p class="likers">Liked by {{ likes }} people</p>
               </form>
               {{ /liked }}
-              <p>Liked by {{ likes }} people</p>
+
             </div>
             <div>
               {{ #author }}
               <form method="post" action="/messages/{{ id }}/delete">
-                <input type="submit" value="Delete">
+                <input type="submit" value="Delete" class="delete-gab">
               </form>
               {{ /author }}
             </div>
