@@ -108,16 +108,15 @@ function findAllGabs() {
 };
 
 // find message by id
-function findMessageId(userId) {
+function findMessageId(messageId) {
   return Messages.find({
       include: [
         {
           model: Users,
         }
-      ]
-    }, {
+      ],
     where: {
-      userId: userId,
+      id: messageId,
     }
   }).then(function(result) {
     if (result === null) {
@@ -205,8 +204,7 @@ function likedBy(messageId) {
       {
         model: Users,
       }
-    ]
-  }, {
+    ],
     where: {
       messageId: messageId
     }

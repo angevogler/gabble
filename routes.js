@@ -168,11 +168,11 @@ function createRoutes(app) {
     gabble.hasUserLiked(req.session.who.id, messageId)
       .then(function (hasLiked) {
           if (hasLiked) {
-            res.redirect('/messages/:messageId/view');
+            res.redirect('/messages/'+ messageId + '/view');
           } else {
             gabble.createLike(req.session.who.id, messageId)
               .then(function(like) {
-                res.redirect('/messages/:messageId/view');
+                res.redirect('/messages/' + messageId + '/view');
               }).catch(function(like) {
                 res.send('error');
               });
@@ -206,9 +206,9 @@ function createRoutes(app) {
         gabble.unlike(req.session.who.id, messageId)
           .then(function(like) {
           if (hasLiked) {
-            res.redirect('/messages/:messageId/view');
+            res.redirect('/messages/' + messageId + '/view');
           } else {
-              res.redirect('/messages/:messageId/view');
+              res.redirect('/messages/' + messageId + '/view');
               }
           })
       });
