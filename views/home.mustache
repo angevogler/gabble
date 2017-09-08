@@ -14,7 +14,7 @@
     </header>
 
     <section class="wrapper">
-      <div class="welcome-container">
+      <div class="welcome-container container">
         <h1>Welcome to gabble</h1>
         <div>
           <a href="/users/new">
@@ -46,28 +46,43 @@
       </div>
     </header>
 
-    <div>
-      <form method="post" action="/messages/new">
-        <textarea name="newgab" placeholder="What's going on?"></textarea>
-        <input type="submit" value="Gab">
-      </form>
-    </div>
+    <section class="wrapper">
+      <div class="home-wrapper">
+        <div class="home-container">
+        <div class="new-gab">
+          <form method="post" action="/messages/new" class="newgab-form">
+            <textarea name="newgab" placeholder="What's going on?"></textarea>
+            <input type="submit" value="Gab" class="newgab-btn">
+          </form>
+        </div>
 
-    <div>
-      <form method="post" action="/messages/refresh">
-        <input type="submit" value="Refresh Gabs">
-      </form>
-    </div>
+        <div class="refresh">
+          <form method="post" action="/messages/refresh" class="refresh-form">
+            <input type="submit" value="Refresh Gabs" class="refresh-btn">
+          </form>
+        </div>
 
-    {{ #messages }}
-    <div>
-      <h3>{{ userId }}</h3>
-      <p>{{ message }}</p>
-      <form method="post" action="/likes">
-        <input type="submit" value="Like">
-      </form>
-    </div>
-    {{ /messages }}
-    {{ /loggedIn }}
+        {{ #messages }}
+        <a href="/messages/{{ id }}/view" class="message-link">
+          <div class="gab-display">
+            <h3>{{ user.name }} <span>@{{ user.username }}</span></h3>
+            <p>{{ message }}</p>
+            {{ ^liked }}
+            <form method="post" action="/likes/{{ id }}">
+              <input type="submit" value="Like" class="like-btn">
+            </form>
+            {{ /liked }}
+            {{ #liked }}
+            <form method="post" action="/likes/{{ id }}/delete">
+              <input type="submit" value="Unlike" class="like-btn">
+            </form>
+            {{ /liked }}
+            <p>Liked by {{ likes }} people</p>
+          </div>
+        {{ /messages }}
+        {{ /loggedIn }}
+        </a>
+      </div>
+    </section>
   </body>
 </html>

@@ -95,17 +95,21 @@ function writeMessage(userId, message) {
 
 // find all gabs with their correct display name
 function findAllGabs() {
-  return Messages.findAll()
-}
-
-// find all users
-function findAllUsers() {
-  return Users.findAll();
-}
+  return Messages.findAll({
+    include: [
+      {
+        model: Users,
+      }
+    ],
+    order: [
+      ['createdAt', 'DESC']
+    ]
+  })
+};
 
 // find message by id
 function findMessageId(id) {
-  return Message.find({
+  return Messages.find({
     where: {
       id: id,
     }
@@ -118,18 +122,66 @@ function findMessageId(id) {
   });
 };
 
-// like message
-function likeMessage(userId, messageId) {
-  return findUserId().then(function(user) {
-    return findMessageId().then(function(message){
+// create like
+function createLike(userId, messageId){
+  return findUserId(userId).then(function(user) {
+    return findMessageId(messageId).then(function(message) {
       return Likes.create({
         userId: userId,
         messageId: messageId,
+      }).then(function() {
+        return findMessageId(messageId).then(function() {
+          return findUserId(userId);
+        })
       })
     })
   })
-}
+};
 
+// get the number of likes associated with a message
+function findLikes(messageId) {
+  return Likes.findAll({
+    where: {
+      messageId: messageId,
+    }
+  }).then(function(likes) {
+    return likes.length;
+  });
+};
+
+// has user liked the message
+function hasUserLiked(userId, messageId) {
+  return Likes.find({
+    where: {
+      userId: userId,
+      messageId: messageId,
+    }
+  }).then(function(liked) {
+    if (liked !== null ) {
+      return true;
+    } else {
+      return false;
+    }
+  })
+};
+
+// delete like
+function unlike(userId, messageId) {
+  return findUserId(userId).then(function(user) {
+    return findMessageId(messageId).then(function(message) {
+      return Likes.destroy({
+        where: {
+          userId: userId,
+          messageId: messageId,
+        }
+      }).then(function() {
+        return findMessageId(messageId).then(function() {
+          return findUserId(userId);
+        })
+      })
+    })
+  })
+};
 
 /* ******** EXPORT ******** */
 module.exports = {
@@ -138,6 +190,9 @@ module.exports = {
   findUserId: findUserId,
   writeMessage: writeMessage,
   findAllGabs: findAllGabs,
-  findAllUsers: findAllUsers,
-  likeMessage: likeMessage,
+  findMessageId: findMessageId,
+  createLike: createLike,
+  findLikes: findLikes,
+  hasUserLiked: hasUserLiked,
+  unlike: unlike,
 };

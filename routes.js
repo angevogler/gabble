@@ -13,9 +13,23 @@ function createRoutes(app) {
   app.get('/home', function(req, res) {
     if (req.session.who != null) {
       gabble.findAllGabs().then(function(messages) {
-        gabble.findAllUsers().then(function(users) {
+        let promises = [];
+
+        for (let i = 0; i < messages.length; i++) {
+          const likeProm = gabble.findLikes(messages[i].id).then(function (num) {
+            messages[i].likes = num; // update each message
+          });
+
+          const hasLikedProm = gabble.hasUserLiked(req.session.who.id, messages[i].id).then(function (hasLiked) {
+            messages[i].liked = hasLiked;
+          })
+
+          promises.push(likeProm);
+          promises.push(hasLikedProm);
+        }
+
+        Promise.all(promises).then(function () {
           res.render('home', {
-            users: users,
             messages: messages,
             loggedIn: true,
           });
@@ -38,16 +52,19 @@ function createRoutes(app) {
 
   // create user
   app.post('/users/new', function(req, res) {
-    gabble.createUser(req.body.name, req.body.username, req.body.password)
-      .then(function(user){
-        req.session.who = user;
-        console.log(req.session.who.username + ' has registered');
-        res.redirect('/home');
-      }).catch(function(user){
+    if ((req.body.name.length !== 0) && (req.body.username.length !== 0) && (req.body.password.length !== 0)) {
+      gabble.createUser(req.body.name, req.body.username, req.body.password)
+        .then(function(user){
+          req.session.who = user;
+          console.log(req.session.who.username + ' has registered');
+          res.redirect('/home');
+        })
+    } else {
+        console.log('user not created');
         res.render('new_user', {
           error: true,
         });
-      });
+    }
   });
 
   /* ******** LOG IN ******** */
@@ -99,16 +116,41 @@ function createRoutes(app) {
     };
   });
 
+  /* ******** LIKES ******** */
   // create new like
-  app.post('/likes', function(req, res) {
-    if (req.session.who != null) {
-      gabble.findAllGabs().then(function(message) {
-        gabble.likeMessage(req.session.who, message.id).then(function(like) {
-          console.log('liked message');
-          res.redirect('/home');
-        })
-      })
-    }
+  app.post('/likes/:messageId', function(req, res) {
+    const messageId = parseInt(req.params.messageId);
+    // if the current user has not already liked the message
+    gabble.hasUserLiked(req.session.who.id, messageId)
+      .then(function (hasLiked) {
+          if (hasLiked) {
+            res.redirect('/home');
+          } else {
+            gabble.createLike(req.session.who.id, messageId)
+              .then(function(like) {
+                res.redirect('/home');
+              }).catch(function(like) {
+                res.send('error');
+              });
+          }
+      });
+  });
+
+  // delete like when user unlikes message
+  app.post('/likes/:messageId/delete', function(req, res) {
+    const messageId = parseInt(req.params.messageId);
+    // if the current user has not already liked the message
+    gabble.hasUserLiked(req.session.who.id, messageId)
+      .then(function (hasLiked) {
+        gabble.unlike(req.session.who.id, messageId)
+          .then(function(like) {
+          if (hasLiked) {
+            res.redirect('/home');
+          } else {
+              res.redirect('/home');
+              }
+          })
+      });
   });
 
 };
