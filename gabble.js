@@ -198,6 +198,21 @@ function deleteMessage(id) {
   });
 };
 
+// find users who have liked it
+function likedBy(messageId) {
+  return Likes.findAll({
+    include: [
+      {
+        model: Users,
+      }
+    ]
+  }, {
+    where: {
+      messageId: messageId
+    }
+  });
+};
+
 /* ******** EXPORT ******** */
 module.exports = {
   createUser: createUser,
@@ -211,4 +226,5 @@ module.exports = {
   hasUserLiked: hasUserLiked,
   unlike: unlike,
   deleteMessage: deleteMessage,
+  likedBy: likedBy,
 };

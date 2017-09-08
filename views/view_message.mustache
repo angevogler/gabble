@@ -1,0 +1,65 @@
+<!doctype>
+<html>
+  <head>
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,700,700i,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Sacramento" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <title>View Gab</title>
+  </head>
+
+  <body>
+    <header class="main-header">
+      <div class="main-header-container">
+        <h1>gabble</h1>
+        <nav class="main-nav">
+          <a href="/home">
+            <button class="nav-btn">Home</button>
+          </a>
+          <a href="/messages/new">
+            <button class="nav-btn">New Gab</button>
+          </a>
+          <form method="post" action="/users/logout">
+            <input type="submit" value="Log Out" class="nav-btn">
+          </form>
+        </nav>
+      </div>
+    </header>
+
+    <section>
+      {{ #messages }}
+        <div class="gab-display">
+          <h3>{{ user.name }} <span>@{{ user.username }}</span></h3>
+          <p>{{ message }}</p>
+          <div class="likes">
+            {{ ^liked }}
+            <form method="post" action="/likes/{{ id }}/message">
+              <input type="submit" value="Like" class="like-btn">
+            </form>
+            {{ /liked }}
+            {{ #liked }}
+            <form method="post" action="/likes/{{ id }}/delete/message">
+              <input type="submit" value="Unlike" class="like-btn">
+            </form>
+            {{ /liked }}
+            <p>Liked by {{ likes }} people</p>
+          </div>
+          <div>
+            {{ #author }}
+            <form method="post" action="/messages/{{ id }}/delete">
+              <input type="submit" value="Delete">
+            </form>
+            {{ /author }}
+          </div>
+        </div>
+        <div>
+          <h3>Users who have liked this gab:</h3>
+          <ul>
+            {{ #likedBy }}
+            <li>{{ user.name }}</li>
+            {{ /likedBy }}
+          </ul>
+        </div>
+      {{ /messages }}
+    </section>
+  </body>
+</html>

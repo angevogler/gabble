@@ -142,7 +142,7 @@ function createRoutes(app) {
   });
 
   /* ******** LIKES ******** */
-  // create new like
+  // create new like on home page
   app.post('/likes/:messageId', function(req, res) {
     const messageId = parseInt(req.params.messageId);
     // if the current user has not already liked the message
@@ -161,7 +161,26 @@ function createRoutes(app) {
       });
   });
 
-  // delete like when user unlikes message
+  // create new like when viewing message
+  app.post('/likes/:messageId/message', function(req, res) {
+    const messageId = parseInt(req.params.messageId);
+    // if the current user has not already liked the message
+    gabble.hasUserLiked(req.session.who.id, messageId)
+      .then(function (hasLiked) {
+          if (hasLiked) {
+            res.redirect('/messages/:messageId/view');
+          } else {
+            gabble.createLike(req.session.who.id, messageId)
+              .then(function(like) {
+                res.redirect('/messages/:messageId/view');
+              }).catch(function(like) {
+                res.send('error');
+              });
+          }
+      });
+  });
+
+  // delete like when user unlikes message on home page
   app.post('/likes/:messageId/delete', function(req, res) {
     const messageId = parseInt(req.params.messageId);
     // if the current user has not already liked the message
@@ -176,6 +195,72 @@ function createRoutes(app) {
               }
           })
       });
+  });
+
+  // delete like when user unlikes message when viewing message
+  app.post('/likes/:messageId/delete/message', function(req, res) {
+    const messageId = parseInt(req.params.messageId);
+    // if the current user has not already liked the message
+    gabble.hasUserLiked(req.session.who.id, messageId)
+      .then(function (hasLiked) {
+        gabble.unlike(req.session.who.id, messageId)
+          .then(function(like) {
+          if (hasLiked) {
+            res.redirect('/messages/:messageId/view');
+          } else {
+              res.redirect('/messages/:messageId/view');
+              }
+          })
+      });
+  });
+
+  /* ******** VIEW MESSAGE ******** */
+  app.get('/messages/:messageId/view', function (req, res) {
+    const messageId = parseInt(req.params.messageId);
+
+    // gabble.likedBy(messageId).then(function(likes) {
+    //   console.log(likes[0].);
+    // });
+
+    if (req.session.who != null) {
+      gabble.findMessageId(messageId).then(function(messages) {
+        // gabble.likedBy(messages.id);
+        let promises = [];
+
+          // display delete button
+          if (req.session.who.id === messages.user.id) {
+            messages.author = true;
+          } else{
+            messages.author = false;
+          }
+          // display # of likes
+          const likeProm = gabble.findLikes(messages.id).then(function (num) {
+            messages.likes = num; // update each message with number of likes
+          });
+
+          const hasLikedProm = gabble.hasUserLiked(req.session.who.id, messages.id).then(function (hasLiked) {
+            messages.liked = hasLiked;
+          })
+
+          const likedByProm = gabble.likedBy(messages.id).then(function (who) {
+            messages.likedBy = who;
+            console.log(who);
+          })
+
+          promises.push(likeProm);
+          promises.push(hasLikedProm);
+          promises.push(likedByProm);
+
+        Promise.all(promises).then(function () {
+          console.log('success');
+          res.render('view_message', {
+            messages: messages,
+          });
+        })
+      })
+    } else {
+      res.redirect('/');
+    }
   });
 
 };
